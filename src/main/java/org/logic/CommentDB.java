@@ -2,8 +2,10 @@ package org.logic;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+
 public class CommentDB {
 
         private final static String DBURL = "jdbc:mysql://127.0.0.1:3306/commenteer";
@@ -27,14 +29,11 @@ public class CommentDB {
                 statement.setInt(3, comment.getImportance());
                 statement.setDate(4,comment.getDate());
                 statement.setString(5,comment.getSender());
-                //TODO statements
                 statement.executeUpdate();
-                //zwolnienie zasobów i zamknięcie połączenia
                 statement.close();
                 connection.close();
             } catch (InstantiationException | IllegalAccessException
                      | ClassNotFoundException | SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
@@ -46,9 +45,7 @@ public class CommentDB {
             Class.forName(DBDRIVER).newInstance();
             connection = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
             PreparedStatement statement = connection.prepareStatement(query);
-
             comments = (ArrayList<Comment>)sqlCommentParser.resultSetToCommentList(statement.executeQuery());
-
             statement.close();
             connection.close();
         } catch (InstantiationException | IllegalAccessException
@@ -57,7 +54,22 @@ public class CommentDB {
         }
         return comments;
     }
-
+    public ArrayList<Trend> trend(){
+            query = sqlCommentParser.createTrendQuery();
+        ArrayList<Trend> trendList = new ArrayList<Trend>() ;
+        try {
+            Class.forName(DBDRIVER).newInstance();
+            connection = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
+            PreparedStatement statement = connection.prepareStatement(query);
+            trendList = sqlCommentParser.resultSetToTrendList(statement.executeQuery());
+            statement.close();
+            connection.close();
+        } catch (InstantiationException | IllegalAccessException
+                 | ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return trendList;
+    }
     public void delete(Comment comment) {
         query = sqlCommentParser.createDeleteQuery(comment);
 
@@ -65,16 +77,11 @@ public class CommentDB {
             Class.forName(DBDRIVER).newInstance();
             connection = DriverManager.getConnection(DBURL, DBUSER, DBPASS);
             PreparedStatement statement = connection.prepareStatement(query);
-
-            //TODO statements
             statement.executeUpdate(query);
-
-            //zwolnienie zasobów i zamknięcie połączenia
             statement.close();
             connection.close();
         } catch (InstantiationException | IllegalAccessException
                  | ClassNotFoundException | SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

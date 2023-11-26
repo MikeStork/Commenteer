@@ -1,6 +1,7 @@
 package org.console;
 
 import org.logic.Comment;
+import org.logic.Trend;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,6 +78,13 @@ public class Display {
             System.out.println("Comment:\t"+comment.getText());
             System.out.println("Sent by:\t"+comment.getSender());
             System.out.println();
+        });
+    }
+    public static void printTrends(List<Trend> TrendList){
+        String format = "%-20s%-20.2f%-20.2f%-20s%n";
+        System.out.printf("%-20s%-20s%-20s%-20s%n","EMPLOYEE","EARLIER","CURRENT WEEK", "TREND");
+        TrendList.forEach(trend -> {
+            System.out.printf(format,trend.getEmployee(),trend.getEarlier(),trend.getCurrWeek(), trend.getTrend());
         });
     }
 }

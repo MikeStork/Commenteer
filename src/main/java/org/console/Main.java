@@ -2,21 +2,12 @@ package org.console;
 
 import org.logic.Comment;
 import org.logic.CommentDB;
-
-import java.awt.*;
-import java.io.IOException;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import org.console.Display;
 import org.logic.InputValidator;
 
 import static org.console.Display.*;
@@ -33,8 +24,6 @@ public class Main {
         }
     }
 
-
-
         private static final AtomicInteger selectedCommentId = new AtomicInteger();
     public static void Menu(String command){
 
@@ -45,8 +34,9 @@ public class Main {
                 .collect(Collectors.toList());
         Display.clearConsole();
         Display.PrintTitle();
-
+        CommentDB commentDB = new CommentDB();
         switch(commandType.toLowerCase()){
+            case "inser":
             case "insert":
                 Map<String, String> paramMap = ListToParamMap(concat_command_words);
                 for (int i = 0; i < concat_command_words.size(); i+=2) {
@@ -55,7 +45,6 @@ public class Main {
                     }
                 }
                 if(InputValidator.ValidateInputCommand(paramMap)){
-                    CommentDB commentDB = new CommentDB();
                     if (paramMap.containsKey("-s") == false){
                         paramMap.put("-s","Anonymous");
                     }
@@ -69,32 +58,42 @@ public class Main {
                     System.out.println("Entered insert command wrongly");
                 }
                 break;
+            case "del":
+            case "delet":
             case "delete":
-                    CommentDB commentDB = new CommentDB();
                 if(commentDB.list().stream().anyMatch(comment->comment.getId()==selectedCommentId.get())){
                     commentDB.delete(commentDB.list().stream()
                             .filter(comment -> comment.getId()==selectedCommentId.get())
                             .collect(Collectors.toList()).get(0));
                     System.out.println("Comment deleted succesfully");
+                    }
+                else{
+                    System.out.println("Comment with selected id was not found");
+                    }
                     break;
-                    }
-                    else{
-                        System.out.println("Comment with selected id was not found");
-                        break;
-                    }
+            case "sel":
+            case "selec":
             case "select":
-                try{
-                    selectedCommentId.set(Integer.parseInt(concat_command_words.get(0)));
-                    System.out.println("Selected comment with id "+selectedCommentId.get());
-                }catch (Exception e){
-                    System.out.println("Selected id is not valid number");
-                }
+                        try{
+                            selectedCommentId.set(Integer.parseInt(concat_command_words.get(0)));
+                    if(!commentDB.list().stream().anyMatch(comment->comment.getId()==selectedCommentId.get())){
+                        System.out.println("Comment with selected id was not found");
+                    }else {
+                        System.out.println("Selected comment with id " + selectedCommentId.get());
+                    }
+                    break;
+                        }catch (Exception e){
+                            System.out.println("Selected id is not valid number");
+                        }
                 break;
+            case "li":
+            case "lis":
             case "list":
-                CommentDB commDB = new CommentDB();
-                 printComments(commDB.list());
+                 printComments(commentDB.list());
                 break;
             case "trend":
+            case "trends":
+                printTrends(commentDB.trend());
                 break;
             default:
                 System.out.println("No such command found");

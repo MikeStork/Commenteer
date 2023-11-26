@@ -4,7 +4,9 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SQLCommentParser {
 
@@ -18,6 +20,9 @@ public class SQLCommentParser {
     }
     public String createListQuery() {
         return "SELECT * FROM comments;";
+    }
+    public String createTrendQuery(){
+        return "SELECT employee, AVG(CASE WHEN YEARWEEK(date) = YEARWEEK(CURDATE()) THEN importance END) AS avg_importance_current_week, COALESCE(AVG(CASE WHEN YEARWEEK(date) < YEARWEEK(CURDATE()) THEN importance END), 0) AS avg_importance_earlier_time, CASE WHEN AVG(CASE WHEN YEARWEEK(date) = YEARWEEK(CURDATE()) THEN importance END) > COALESCE(AVG(CASE WHEN YEARWEEK(date) < YEARWEEK(CURDATE()) THEN importance END), 0) THEN 'Increased' WHEN AVG(CASE WHEN YEARWEEK(date) = YEARWEEK(CURDATE()) THEN importance END) < COALESCE(AVG(CASE WHEN YEARWEEK(date) < YEARWEEK(CURDATE()) THEN importance END), 0) THEN 'Decreased' ELSE 'Equivalent' END AS trend FROM comments GROUP BY employee;";
     }
     public List<Comment> resultSetToCommentList(ResultSet resultSet) throws SQLException {
         List<Comment> comments = new ArrayList<>();
@@ -35,5 +40,12 @@ public class SQLCommentParser {
         }
 
         return comments;
+    }
+    public ArrayList<Trend> resultSetToTrendList(ResultSet resultSet) throws SQLException{
+        ArrayList<Trend> listedData= new ArrayList<>();
+        while(resultSet.next()){
+            listedData.add(new Trend(resultSet.getString("employee"),resultSet.getFloat("avg_importance_earlier_time"),resultSet.getFloat("avg_importance_current_week"),resultSet.getString("trend")));
+        }
+        return listedData;
     }
 }

@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class InputValidator {
     public static boolean ValidateInputCommand(Map<String, String> paramMap){
-            // Regular expression for name validation
         if(paramMap.isEmpty()){
             return false;
         }
