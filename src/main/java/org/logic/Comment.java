@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Comment {
-        private static AtomicInteger counter = new AtomicInteger(0);
         private int id;
         private String employee;
         private String text;
@@ -16,15 +15,22 @@ public class Comment {
         private Date date;
         private String sender;
 
-        Comment(int id, String employee, String text, Integer importance, Date date, String sender){
-                this.setId(counter.incrementAndGet());
-              this.setEmployee(employee);
-              this.setText(text);
-              this.setImportance(importance);
-              this.setDate(date);
-              this.setSender(sender);
+        public Comment(int id, String employee, String text, Integer importance, Date date, String sender){
+                this.setId(id);
+                this.setEmployee(employee);
+                this.setText(text);
+                this.setImportance(importance);
+                this.setDate(date);
+                this.setSender(sender);
         }
-
+        public Comment(String employee, String text, Integer importance, Date date, String sender){
+                this.setId(-1);
+                this.setEmployee(employee);
+                this.setText(text);
+                this.setImportance(importance);
+                this.setDate(date);
+                this.setSender(sender);
+        }
         public Date getDate() {
                 return date;
         }

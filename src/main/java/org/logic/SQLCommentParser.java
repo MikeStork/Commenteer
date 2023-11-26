@@ -9,12 +9,6 @@ import java.util.List;
 public class SQLCommentParser {
 
     public String createSaveQuery(Comment comment) {
-//        String query = "INSERT INTO comments VALUES (NULL,"
-//                +comment.getEmployee()+" ,'"
-//                +comment.getText() + "', '"
-//                +comment.getSender() +"','"
-//                +comment.getDate() +"','"
-//                +comment.getImportance()+"');";
         String query = "INSERT INTO comments VALUES (NULL,?,?,?,?,?);";
         return query;
     }
