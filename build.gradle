@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+apply plugin: 'application'
+java{
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(18)
+    }
+}
+application {
+    mainClass = 'org.console.Main'
+}
+jar{
+
+    manifest {
+        attributes 'Main-Class':'org.console.Main'
+    }
+}
+group 'org'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('mysql:mysql-connector-java:8.0.25')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
