@@ -3,8 +3,16 @@ package org.logic;
 import org.logic.interfaces.InputValidatorInterface;
 
 import java.util.Map;
-
+/**
+ * Class for validating input commands in a commenting application.
+ */
 public class InputValidator implements InputValidatorInterface {
+    /**
+     * Validates the input command parameters.
+     *
+     * @param paramMap The map of command parameters to be validated.
+     * @return True if the input command is valid, false otherwise.
+     */
     public static boolean ValidateInputCommand(Map<String, String> paramMap){
         if(paramMap.isEmpty()){
             return false;
@@ -29,8 +37,17 @@ public class InputValidator implements InputValidatorInterface {
         }
         return true;
     }
+    /**
+     * Checks if the date format is valid.
+     *
+     * @param date The date to be validated.
+     * @return True if the date format is valid, false otherwise.
+     */
     private static boolean isValidDateFormat(String date) {
         String dateFormatRegex = "^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
         return date.matches(dateFormatRegex);
+    }
+    public static boolean idContainedInList(CommentDB commentDB, Integer id){
+        return commentDB.list().stream().anyMatch(comment -> comment.getId() == id);
     }
 }

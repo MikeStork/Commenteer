@@ -3,6 +3,8 @@
  */
 package org.logic.interfaces;
 
+import org.logic.CommentDB;
+
 import java.util.Map;
 
 public interface InputValidatorInterface {
@@ -47,5 +49,9 @@ public interface InputValidatorInterface {
     private static boolean isValidDateFormat(String date) {
         String dateFormatRegex = "^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
         return date.matches(dateFormatRegex);
+    }
+
+    public static boolean idContainedInList(CommentDB commentDB, Integer id){
+        return commentDB.list().stream().anyMatch(comment -> comment.getId() == id);
     }
 }

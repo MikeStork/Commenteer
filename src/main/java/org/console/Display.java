@@ -7,6 +7,7 @@ package org.console;
 import org.logic.Comment;
 import org.logic.CommentDB;
 import org.logic.InputValidator;
+
 import org.logic.Trend;
 import org.logic.interfaces.StartupControllerInterface;
 
@@ -66,7 +67,7 @@ public class Display implements DisplayInterface {
             case "del":
             case "delet":
             case "delete":
-                if (commentDB.list().stream().anyMatch(comment -> comment.getId() == selectedCommentId.get())) {
+                if (!InputValidator.idContainedInList(commentDB,selectedCommentId.get())) {
                     commentDB.delete(commentDB.list().stream()
                             .filter(comment -> comment.getId() == selectedCommentId.get())
                             .collect(Collectors.toList()).get(0));
@@ -80,7 +81,7 @@ public class Display implements DisplayInterface {
             case "select":
                 try {
                     selectedCommentId.set(Integer.parseInt(concat_command_words.get(0)));
-                    if (!commentDB.list().stream().anyMatch(comment -> comment.getId() == selectedCommentId.get())) {
+                    if (!InputValidator.idContainedInList(commentDB,selectedCommentId.get())) {
                         System.out.println("Comment with selected id was not found");
                     } else {
                         System.out.println("Selected comment with id " + selectedCommentId.get());

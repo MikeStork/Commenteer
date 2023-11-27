@@ -10,6 +10,9 @@ import static java.lang.System.exit;
 import static org.console.DisplayInterface.*;
 
 public class StartupController implements StartupControllerInterface {
+    /**
+     * Starts the commenting application.
+     */
     public static void start(){
     DisplayInterface.clearConsole();
         DisplayInterface.PrintTitle();
@@ -18,6 +21,9 @@ public class StartupController implements StartupControllerInterface {
         Menu(scanner.nextLine());
     }
     }
+    /**
+     * Stops the commenting application.
+     */
     public static void stop(){
         exit(0);
     }

@@ -19,6 +19,11 @@ public class CommentDB implements CommentBDInterface {
         private final SQLCommentParser sqlCommentParser = new SQLCommentParser();
 
 
+    /**
+     * Saves the given comment to the database.
+     *
+     * @param comment The comment to be saved.
+     */
         public void save(Comment comment) {
             query = sqlCommentParser.createSaveQuery(comment);
 
@@ -40,6 +45,11 @@ public class CommentDB implements CommentBDInterface {
             }
         }
 
+    /**
+     * Retrieves a list of all comments from the database.
+     *
+     * @return A list of comments from the database.
+     */
     public ArrayList<Comment> list() {
         query = sqlCommentParser.createListQuery();
         ArrayList<Comment> comments = new ArrayList<>();
@@ -56,6 +66,11 @@ public class CommentDB implements CommentBDInterface {
         }
         return comments;
     }
+    /**
+     * Retrieves a list of trends from the database.
+     *
+     * @return A list of trends from the database.
+     */
     public ArrayList<Trend> trend(){
             query = sqlCommentParser.createTrendQuery();
         ArrayList<Trend> trendList = new ArrayList<Trend>() ;
@@ -72,6 +87,11 @@ public class CommentDB implements CommentBDInterface {
         }
         return trendList;
     }
+    /**
+     * Deletes the given comment from the database.
+     *
+     * @param comment The comment to be deleted.
+     */
     public void delete(Comment comment) {
         query = sqlCommentParser.createDeleteQuery(comment);
 
