@@ -1,6 +1,8 @@
 package org.logic;
 
-public class Trend {
+import org.logic.interfaces.TrendInterface;
+
+public class Trend implements TrendInterface {
     String employee;
     Float earlier;
     Float currWeek;

@@ -1,12 +1,14 @@
 package org.logic;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.logic.interfaces.CommentBDInterface;
 
-public class CommentDB {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class CommentDB implements CommentBDInterface {
 
         private final static String DBURL = "jdbc:mysql://127.0.0.1:3306/commenteer";
         private final static String DBUSER = "root";
@@ -14,7 +16,7 @@ public class CommentDB {
         private final static String DBDRIVER = "com.mysql.cj.jdbc.Driver";
         private Connection connection;
         private String query;
-        private SQLCommentParser sqlCommentParser = new SQLCommentParser();
+        private final SQLCommentParser sqlCommentParser = new SQLCommentParser();
 
 
         public void save(Comment comment) {

@@ -1,8 +1,10 @@
 package org.logic;
 
+import org.logic.interfaces.InputValidatorInterface;
+
 import java.util.Map;
 
-public class InputValidator {
+public class InputValidator implements InputValidatorInterface {
     public static boolean ValidateInputCommand(Map<String, String> paramMap){
         if(paramMap.isEmpty()){
             return false;
@@ -23,9 +25,7 @@ public class InputValidator {
             return false;
         }
         if(paramMap.containsKey("-d")){
-            if(!isValidDateFormat(paramMap.get("-d"))){
-                return false;
-            }
+            return isValidDateFormat(paramMap.get("-d"));
         }
         return true;
     }

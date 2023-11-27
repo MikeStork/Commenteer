@@ -1,13 +1,10 @@
 package org.logic;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.logic.interfaces.CommentInterface;
 
-public class Comment {
+import java.sql.Date;
+
+public class Comment implements CommentInterface {
         private int id;
         private String employee;
         private String text;

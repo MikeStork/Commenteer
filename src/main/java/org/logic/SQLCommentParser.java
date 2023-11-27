@@ -1,14 +1,14 @@
 package org.logic;
 
+import org.logic.interfaces.SQLCommentParserInterface;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class SQLCommentParser {
+public class SQLCommentParser implements SQLCommentParserInterface {
 
     public String createSaveQuery(Comment comment) {
         String query = "INSERT INTO comments VALUES (NULL,?,?,?,?,?);";
